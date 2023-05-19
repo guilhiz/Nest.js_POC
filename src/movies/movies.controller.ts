@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Put,
@@ -27,18 +28,26 @@ export class MoviesController {
     return this.movieService.list();
   }
 
+  @Get(':id')
+  show(@Param('id', ParseIntPipe) id: number): Promise<Movie> {
+    return this.movieService.show(id);
+  }
+
   @Put(':id')
-  update(@Param('id') id: number, @Body() updateMovie: UpdateMovieDto) {
-    return this.movieService.update(Number(id), updateMovie);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateMovie: UpdateMovieDto,
+  ) {
+    return this.movieService.update(id, updateMovie);
   }
 
   @Patch(':id/completed')
-  updateCompleted(@Param('id') id: number) {
-    return this.movieService.updateCompleted(Number(id));
+  updateCompleted(@Param('id', ParseIntPipe) id: number) {
+    return this.movieService.updateCompleted(id);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: number) {
-    return this.movieService.delete(Number(id));
+  delete(@Param('id', ParseIntPipe) id: number) {
+    return this.movieService.delete(id);
   }
 }
