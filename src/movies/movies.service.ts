@@ -26,8 +26,6 @@ export class MoviesService {
   }
 
   async update(id: number, updateMovie: UpdateMovieDto) {
-    await this.exist(id);
-
     return await this.prisma.movie.update({
       where: {
         id,
@@ -37,8 +35,6 @@ export class MoviesService {
   }
 
   async updateCompleted(id: number) {
-    await this.exist(id);
-
     return await this.prisma.movie.update({
       where: {
         id,
@@ -50,24 +46,10 @@ export class MoviesService {
   }
 
   async delete(id: number) {
-    await this.exist(id);
-
     return await this.prisma.movie.delete({
       where: {
         id,
       },
     });
-  }
-
-  async exist(id: number) {
-    const movieCount = await this.prisma.movie.count({
-      where: {
-        id,
-      },
-    });
-
-    if (movieCount === 0) {
-      throw new NotFoundException('O filme não existe');
-    }
   }
 }
