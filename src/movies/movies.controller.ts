@@ -3,8 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Param,
-  ParseIntPipe,
   Patch,
   Post,
   Put,
@@ -30,7 +28,7 @@ export class MoviesController {
   }
 
   @Get(':id')
-  show(@Param('id') id: number): Promise<Movie> {
+  show(@ParamId() id: number): Promise<Movie> {
     return this.movieService.show(id);
   }
 
