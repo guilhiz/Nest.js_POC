@@ -1,6 +1,5 @@
 import { Logger, Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+
 import { MoviesModule } from './movies/movies.module';
 import { PrismaModule, loggingMiddleware } from 'nestjs-prisma';
 
@@ -19,7 +18,7 @@ import { PrismaModule, loggingMiddleware } from 'nestjs-prisma';
       },
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
