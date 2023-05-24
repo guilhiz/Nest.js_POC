@@ -7,9 +7,13 @@ import { UpdateMovieDto } from './dto/update-movie-dto';
 export class MoviesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createMovie: CreateMovieDto) {
+  async create(createMovie: CreateMovieDto, userId: number) {
     return await this.prisma.movie.create({
-      data: createMovie,
+      data: {
+        title: createMovie.title,
+        synopsis: createMovie.synopsis,
+        userId
+      }
     });
   }
 
@@ -20,36 +24,36 @@ export class MoviesService {
   async show(id: number) {
     return await this.prisma.movie.findUnique({
       where: {
-        id,
-      },
+        id
+      }
     });
   }
 
   async update(id: number, updateMovie: UpdateMovieDto) {
     return await this.prisma.movie.update({
       where: {
-        id,
+        id
       },
-      data: updateMovie,
+      data: updateMovie
     });
   }
 
   async updateCompleted(id: number) {
     return await this.prisma.movie.update({
       where: {
-        id,
+        id
       },
       data: {
-        completed: true,
-      },
+        completed: true
+      }
     });
   }
 
   async delete(id: number) {
     return await this.prisma.movie.delete({
       where: {
-        id,
-      },
+        id
+      }
     });
   }
 }

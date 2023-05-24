@@ -19,7 +19,7 @@ export class MoviesController {
 
   @Post()
   create(@Body() createMovie: CreateMovieDto) {
-    return this.movieService.create(createMovie);
+    return this.movieService.create(createMovie, 1);
   }
 
   @Get()
