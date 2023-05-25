@@ -6,15 +6,15 @@ import { AuthService } from 'src/auth/auth.service';
 export class AuthGuard implements CanActivate {
   constructor(private readonly authService: AuthService) {}
 
-  canActivate(context: ExecutionContext): boolean | Promise<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
     if (!token) throw new UnauthorizedException();
 
     try {
-      const payload = this.authService.validateToken(token);
+      const payload = await this.authService.validateToken(token);
 
-      request['user'] = payload;
+      request['payload'] = payload;
     } catch {
       throw new UnauthorizedException();
     }
