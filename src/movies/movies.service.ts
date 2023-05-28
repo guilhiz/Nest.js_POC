@@ -10,6 +10,7 @@ export class MoviesService {
   constructor(private readonly prisma: PrismaService, private readonly authService: AuthService) {}
 
   async create(createMovie: CreateMovieDto, payload: JwtPayloadType) {
+    console.log({ payload });
     return await this.prisma.movie.create({
       data: {
         title: createMovie.title,

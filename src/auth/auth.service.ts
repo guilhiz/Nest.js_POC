@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'nestjs-prisma';
+import * as bcrypt from 'bcrypt';
 import { LoginAuthDto, RegisterAuthDto } from './dto';
 import { User } from '@prisma/client';
 
@@ -13,7 +14,8 @@ export class AuthService {
       accessToken: this.jwtService.sign(
         {
           id: user.id,
-          name: user.name
+          name: user.name,
+          role: user.role
         },
         {
           expiresIn: '24h',
@@ -48,6 +50,8 @@ export class AuthService {
   }
 
   async register(registerDto: RegisterAuthDto) {
+    registerDto.password = await bcrypt.hash(registerDto.password, 10);
+
     const user = await this.prisma.user.create({
       data: registerDto
     });
@@ -67,5 +71,9 @@ export class AuthService {
     //TO DO: Enviar email...
 
     return true;
+  }
+
+  async list() {
+    return await this.prisma.user.findMany();
   }
 }

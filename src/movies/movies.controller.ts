@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Headers, Patch, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Post, Put, UseGuards } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Movie } from '@prisma/client';
 import { CreateMovieDto } from './dto/create-movie-dto';
@@ -7,8 +7,12 @@ import { ParamId } from 'src/decorators/param-id.decorator';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { JwtPayload } from 'src/decorators/jwt-payload.decorator';
 import { JwtPayloadType } from 'src/common/types/jwt-payload.types';
+import { Roles } from 'src/decorators/enum.decorator';
+import { Role } from 'src/common/enums/role.enum';
+import { RoleGuard } from 'src/guards/role.guard';
 
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard, RoleGuard)
+@Roles(Role.User)
 @Controller('movies')
 export class MoviesController {
   constructor(private readonly movieService: MoviesService) {}

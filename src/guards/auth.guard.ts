@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
     try {
       const payload = await this.authService.validateToken(token);
 
-      request['payload'] = payload;
+      request['user'] = payload;
     } catch {
       throw new UnauthorizedException();
     }
