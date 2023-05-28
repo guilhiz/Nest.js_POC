@@ -42,9 +42,11 @@ export class AuthService {
       where: { email: loginDto.email }
     });
 
-    if (!user || loginDto.password !== user.password) {
-      throw new UnauthorizedException('email e/ou senha incorretos');
-    }
+    if (!user) throw new UnauthorizedException('email e/ou senha incorretos');
+
+    const matchPassword = await bcrypt.compare(loginDto.password, user.password);
+
+    if (!matchPassword) throw new UnauthorizedException('email e/ou senha incorretos');
 
     return this.createToken(user);
   }
